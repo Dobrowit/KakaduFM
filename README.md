@@ -4,8 +4,9 @@
 Another player for internet radio stations, using the database https://www.radio-browser.info/.
 
 Requirements:
-- Windows 10 (tested)
+- Windows 10+
 - Python 3.10+ https://www.python.org/downloads/
+- VLC media player https://www.videolan.org
 
 Associated projects:
 - https://www.radio-browser.info
@@ -15,16 +16,7 @@ Associated projects:
 - https://pypi.org/project/requests
 
 Installation:
-- download and unpack https://github.com/morgor/KakaduFM/archive/refs/heads/main.zip
-- run treminal/console (cmd.exe or Power Shell)
-- go to directory (use 'cd' command) 'main' (You can rename it)
-
-Download dependences:
-
-    pip install -r requirements.txt
-
-Running:
-
-    python kakadufm.pyw
+- download and unpack https://codeload.github.com/Dobrowit/KakaduFM/zip/refs/heads/main
+- run start.bat
 
 <img align="right" src="https://github.com/Dobrowit/KakaduFM/blob/main/img/screenshot_2.png" alt="KakaduFM screenshot 2">
