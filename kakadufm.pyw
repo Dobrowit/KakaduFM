@@ -1,71 +1,16 @@
-import random
-import time
-import calendar
-import re
-import sys
-import webbrowser
-import pathlib
-import subprocess
-import urllib.parse
-import site
+import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests, vlc
 import tkinter as tk
+import urllib.parse
 from tkinter import messagebox
 from datetime import datetime
 from time import sleep
 from io import BytesIO
-
 from venv_easy import venv
-
-### Declare new venv.
-### Also supports constructor init.
-##env = venv()
-### Set the path, relative or absoloute.
-##path = '.venv'
-### Check if this is a valid venv.
-##if env.VenvExists(path):
-##    # Resume working in this venv.
-##    env._init_app(app=__name__, path=path)
-##else:
-##    # Create a venv, and install django as a requirement.
-##    env._init_app(app=__name__, refresh_env=False, requirements=['pygubu'], path=path)
-
-try:
-    import pygubu
-    import requests
-    from pyradios import RadioBrowser
-    from PIL import Image, ImageTk
-    from colorthief import ColorThief
-except:
-    root = tk.Tk()
-    root.configure(height=100, width=200)
-    root.title("KakaduFM")
-    root.label11 = tk.Label(root)
-    root.label11.configure(font="{Arial} 16 {}", text="Wait for downloading requirements...")
-    root.label11.pack(padx=30, pady=30, side="top")
-    root.update()
-    subprocess.call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-    root.destroy()
-    import pygubu
-    import requests
-    from pyradios import RadioBrowser
-    from PIL import Image, ImageTk
-    from colorthief import ColorThief
-
-try:
-    import vlc
-except:
-    print("Install VLC first!")
-    print("Download it from https://www.videolan.org/vlc/")
-    messagebox.showerror("Dependences", "Install VLC first!\nDownload it from https://www.videolan.org/vlc/")
-    quit()
+from pyradios import RadioBrowser
+from PIL import Image, ImageTk
+from colorthief import ColorThief
 
 def is_venv():
-##    print("sys.base_prefix:", sys.base_prefix)
-##    print("sys.prefix:", sys.prefix)
-##    print("ENABLE_USER_SITE", site.ENABLE_USER_SITE)
-##    print("PREFIXES", site.PREFIXES)
-##    print("USER_BASE", site.USER_BASE)
-##    print("USER_SITE", site.USER_SITE)
     return (hasattr(sys, 'real_prefix') or
             (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix))
 
@@ -80,7 +25,7 @@ PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "ui" / "gui.ui"
 
 VER_TK = tk.Tcl().eval('info patchlevel')
-SEARCH_ENGINE1 = "https://kagi.com/search?q="
+SEARCH_ENGINE1 = "https://open.spotify.com/search/"
 SEARCH_ENGINE2 = "https://duckduckgo.com/?q="
 SEARCH_ENGINE3 = "https://www.qwant.com/?q="
 SEARCH_ENGINE4 = "https://www.bing.com/search?q="
