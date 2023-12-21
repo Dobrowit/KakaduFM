@@ -1,24 +1,23 @@
-import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests, vlc
+import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests
 import tkinter as tk
 import urllib.parse
 from tkinter import messagebox
 from datetime import datetime
 from time import sleep
 from io import BytesIO
-from venv_easy import venv
 from pyradios import RadioBrowser
 from PIL import Image, ImageTk
 from colorthief import ColorThief
 
-def is_venv():
-    return (hasattr(sys, 'real_prefix') or
-            (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix))
-
-if is_venv():
-    pass
-else:
-    messagebox.showerror("KakaduFM", "You running outside venv!!\n\nRun 'start.bat'.")
-    quit()
+try:
+    import vlc
+except:
+    response = messagebox.askquestion("KakaduFM", "VLC media player is missing!\n\nDo you want to download and install VLC from https://www.videolan.org?")
+    if response == 'yes':
+        webbrowser.open("https://www.videolan.org", new=2)
+        quit()
+    else:
+        quit()
 
 ISO_COUNTRY_CODE = "PL"
 PROJECT_PATH = pathlib.Path(__file__).parent
