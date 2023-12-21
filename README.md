@@ -27,4 +27,4 @@ Running:
 
     python kakadufm.pyw
 
-<img align="right" src="https://github.com/morgor/KakaduFM/raw/main/screenshot_2.png" alt="KakaduFM screenshot 2">
+<img align="right" src="https://github.com/Dobrowit/KakaduFM/blob/main/img/screenshot_2.png" alt="KakaduFM screenshot 2">
