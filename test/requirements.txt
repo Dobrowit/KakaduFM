@@ -1,0 +1,13 @@
+certifi==2023.11.17
+cffi==1.16.0
+charset-normalizer==3.3.2
+idna==3.6
+numpy==1.26.2
+PyAudio==0.2.14
+pycparser==2.21
+pydub==0.25.1
+pygame==2.5.2
+pyglet==2.0.10
+requests==2.31.0
+sounddevice==0.4.6
+urllib3==2.1.0
