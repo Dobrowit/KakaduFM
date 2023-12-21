@@ -1,4 +1,4 @@
-import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests
+import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests, pickle, os
 import tkinter as tk
 import urllib.parse
 from tkinter import messagebox
@@ -19,10 +19,10 @@ except:
     else:
         quit()
 
+VERBOSE = False
 ISO_COUNTRY_CODE = "PL"
 PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "ui" / "gui.ui"
-
 VER_TK = tk.Tcl().eval('info patchlevel')
 SEARCH_ENGINE1 = "https://open.spotify.com/search/"
 SEARCH_ENGINE2 = "https://duckduckgo.com/?q="
@@ -32,41 +32,84 @@ SEARCH_ENGINE5 = "https://www.google.com/search?q="
 SEARCH_ENGINE = SEARCH_ENGINE4
 MAXL_NAME = 26
 
+class OutputHandler:
+    def __init__(self):
+        pass
+
+    def write(self, text):
+        pass
+
+    def flush(self):
+        pass
+
+if not VERBOSE:
+    output_handler = OutputHandler() # Tworzenie instancji klasy OutputHandler
+    sys.stdout = output_handler # Przekierowanie wyjścia
+
+def zapisz_stan_do_pliku(nazwa_pliku, **zmienne):
+    with open(nazwa_pliku, 'wb') as plik:
+        pickle.dump(zmienne, plik)
+
+def wczytaj_stan_z_pliku(nazwa_pliku):
+    if os.path.exists(nazwa_pliku):
+        with open(nazwa_pliku, 'rb') as plik:
+            return pickle.load(plik)
+    else:
+        return None
+
 rb = RadioBrowser()
 
-root = tk.Tk()
-root.configure(height=100, width=200)
-root.title("KakaduFM")
-root.label11 = tk.Label(root)
-root.label11.configure(font="{Arial} 16 {}", text="Downloading stations...")
-root.label11.pack(padx=30, pady=30, side="top")
-root.update()
-radios = rb.stations()
-root.destroy()
+wczytane_zmienne = wczytaj_stan_z_pliku('radios.pickle')
+if wczytane_zmienne is not None:
+    globals().update(wczytane_zmienne)
+else:
+    root = tk.Tk()
+    root.configure(height=100, width=200)
+    root.title("KakaduFM")
+    root.label11 = tk.Label(root)
+    root.label11.configure(font="{Arial} 16 {}", text="Downloading stations...")
+    root.label11.pack(padx=30, pady=30, side="top")
+    root.update()
+    try:
+        radios = rb.stations()
+        zapisz_stan_do_pliku('radios.pickle', radios=radios)
+    except:
+        messagebox.showerror("KakaduFM", "Download error!\n\nRestart KakaduFM.")
+        quit()
+    
+    # radios = rb.search(countrycode=ISO_COUNTRY_CODE)
 
-# radios = rb.search(countrycode=ISO_COUNTRY_CODE)
+    # FIX some .m3u and .pls not playing on vlc.py
+    try:
+        for i in range(len(radios)):
+            url = radios[i]["url"]
+            if url.find('.m3u') > -1 or url.find('.pls') > -1:
+                radios.pop(i)
+    except:
+        pass
 
-# FIX some .m3u and .pls not playing on vlc.py
-try:
-    for i in range(len(radios)):
-        url = radios[i]["url"]
-        if url.find('.m3u') > -1 or url.find('.pls') > -1:
-            radios.pop(i)
-except:
-    pass
+    # Deduplicate
+    url0 = radios[0]["url"]
+    try:
+        for i in range(1, len(radios)):
+            url = radios[i]["url"]
+            if url == url0:
+                radios.pop(i)
+            url0 = radios[i]["url"]
+    except:
+        pass
 
-# Deduplicate
-url0 = radios[0]["url"]
-try:
-    for i in range(1, len(radios)):
-        url = radios[i]["url"]
-        if url == url0:
-            radios.pop(i)
-        url0 = radios[i]["url"]
-except:
-    pass
+    root.destroy()
 
-instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
+options = (
+#    "--no-xlib",        # Unikaj problemów z X Window System (Linux)
+#    "--file-logging",   # Logowanie do pliku
+#    "--logfile=vlc.log",# Określenie pliku logów
+    "--input-repeat=-1",
+    "--fullscreen"
+)
+if not VERBOSE: options = (*options, "--quiet")
+instance = vlc.Instance(options)
 player = instance.media_player_new()
 player.audio_set_volume(100)
 player.audio_set_mute(False)
@@ -117,7 +160,10 @@ class GuiApp:
             self._first_init = False
 
     def run(self):
-        self.mainwindow.mainloop()
+        self.mainwindow.iconify()
+        self.mainwindow.update()
+        self.mainwindow.deiconify()
+        self.mainwindow.mainloop()  # forever
 
     def update_info(self):
         meta_list = ['name', 'stationuuid', 'url', 'homepage', 'favicon', 'country', 'countrycode',
@@ -339,7 +385,7 @@ class GuiApp:
             # print(values['text'])
             # print(values['values'][0])
             # print(values['values'][2])
-            sleep(1)
+            sleep(0.01)
             self.play_uuid(values['values'][2])
 
     def play_uuid(self, radio_uuid):
