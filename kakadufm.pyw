@@ -1,12 +1,11 @@
-import random, time, calendar, re, sys, webbrowser, pathlib, pygubu, requests, pickle, os
+import os, re, sys, time, random, pygubu, pickle, pathlib, requests, calendar, webbrowser, urllib.parse
 import tkinter as tk
-import urllib.parse
+from io import BytesIO
+from PIL import Image, ImageTk
+from time import sleep
 from tkinter import messagebox
 from datetime import datetime
-from time import sleep
-from io import BytesIO
 from pyradios import RadioBrowser
-from PIL import Image, ImageTk
 from colorthief import ColorThief
 
 try:
@@ -20,16 +19,18 @@ except:
         quit()
 
 VERBOSE = False
-ISO_COUNTRY_CODE = "PL"
 PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "ui" / "gui.ui"
 VER_TK = tk.Tcl().eval('info patchlevel')
-SEARCH_ENGINE1 = "https://open.spotify.com/search/"
-SEARCH_ENGINE2 = "https://duckduckgo.com/?q="
-SEARCH_ENGINE3 = "https://www.qwant.com/?q="
-SEARCH_ENGINE4 = "https://www.bing.com/search?q="
-SEARCH_ENGINE5 = "https://www.google.com/search?q="
-SEARCH_ENGINE = SEARCH_ENGINE4
+SEARCH_ENGINES = [
+    "https://open.spotify.com/search/",
+    "https://duckduckgo.com/?q=",
+    "https://www.qwant.com/?q=",
+    "https://www.bing.com/search?q=",
+    "https://www.google.com/search?q="
+    ]
+SEARCH_ENGINE = SEARCH_ENGINES[0]
+ISO_COUNTRY_CODE = "PL"
 MAXL_NAME = 26
 
 class OutputHandler:
