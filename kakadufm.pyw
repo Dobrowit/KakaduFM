@@ -1,5 +1,6 @@
 import os, re, sys, time, random, pygubu, pickle, pathlib, requests, calendar, webbrowser, urllib.parse
 import tkinter as tk
+import tkinter.ttk as ttk
 from io import BytesIO
 from PIL import Image, ImageTk
 from time import sleep
@@ -7,6 +8,7 @@ from tkinter import messagebox
 from datetime import datetime
 from pyradios import RadioBrowser
 from colorthief import ColorThief
+#from ui.style import configure_styles
 
 try:
     import vlc
@@ -19,8 +21,10 @@ except:
         quit()
 
 VERBOSE = False
+THEME = "default" # default alt clam classic vista winnative xpnative
 PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "ui" / "gui.ui"
+PROJECT_STYLE = PROJECT_PATH / "ui" / "style.py"
 VER_TK = tk.Tcl().eval('info patchlevel')
 SEARCH_ENGINES = [
     "https://open.spotify.com/search/",
@@ -117,7 +121,7 @@ player.audio_set_mute(False)
 
 class GuiApp:
     def __init__(self, master=None):
-        self.builder = builder = pygubu.Builder()
+        self.builder = builder = pygubu.Builder(on_first_object=self.setup_ttk_styles)
         builder.add_resource_path(PROJECT_PATH)
         builder.add_from_file(PROJECT_UI)
         # Main widget
@@ -159,6 +163,16 @@ class GuiApp:
             geom = f"{width}x{height}+{x_coord}+{y_coord}"
             toplevel.geometry(geom)
             self._first_init = False
+
+    def setup_ttk_styles(self, widget=None):
+        # ttk styles configuration
+        self.style = style = ttk.Style()
+        #optiondb = style.master
+        style.theme_use(THEME)
+        if THEME != 'default':
+            with open(PROJECT_STYLE, "r") as file:
+                code = file.read()
+            exec(code) # Czy to da się zrobić inaczej np. za pomocą import, bez zmiany style.py?
 
     def run(self):
         self.mainwindow.iconify()

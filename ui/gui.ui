@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<interface version="1.2">
+<interface version="1.3">
   <object class="tk.Toplevel" id="toplevel1">
     <property name="background">#d8d043</property>
     <property name="borderwidth">9</property>
@@ -233,6 +233,7 @@
             <child>
               <object class="ttk.Button" id="button_shuffle">
                 <property name="command" type="command" cbtype="simple">shuffle</property>
+                <property name="style">GreenButton.TButton</property>
                 <property name="text" translatable="yes">Shuffle</property>
                 <layout manager="grid">
                   <property name="column">0</property>
@@ -258,6 +259,7 @@
               <object class="ttk.Button" id="button_stop">
                 <property name="command" type="command" cbtype="simple">stop</property>
                 <property name="state">disabled</property>
+                <property name="style">RedButton.TButton</property>
                 <property name="text" translatable="yes">Stop</property>
                 <layout manager="grid">
                   <property name="column">2</property>
@@ -501,6 +503,7 @@
         <child>
           <object class="ttk.Button" id="button1">
             <property name="command" type="command" cbtype="simple">search_song</property>
+            <property name="style">BlueButton.TButton</property>
             <property name="text" translatable="yes">Search in Internet</property>
             <layout manager="pack">
               <property name="pady">5 10</property>
@@ -640,6 +643,7 @@
             <child>
               <object class="ttk.Button" id="button_search">
                 <property name="command" type="command" cbtype="simple">search</property>
+                <property name="style">GreenButton.TButton</property>
                 <property name="text" translatable="yes">SEARCH</property>
                 <layout manager="pack">
                   <property name="padx">5</property>
@@ -967,6 +971,7 @@ using the www.radio-browser.info database.</property>
             <child>
               <object class="ttk.Button" id="close_btn">
                 <property name="command" type="command" cbtype="simple">about_close</property>
+                <property name="style">RedButton.TButton</property>
                 <property name="text" translatable="yes">Close</property>
                 <layout manager="pack">
                   <property name="padx">5</property>
@@ -1017,6 +1022,7 @@ using the www.radio-browser.info database.</property>
         </child>
         <child>
           <object class="ttk.Button" id="button7">
+            <property name="style">RedButton.TButton</property>
             <property name="text" translatable="yes">CLOSE</property>
             <layout manager="pack">
               <property name="anchor">e</property>
@@ -1064,6 +1070,7 @@ using the www.radio-browser.info database.</property>
         </layout>
         <child>
           <object class="ttk.Button" id="button8">
+            <property name="style">GreenButton.TButton</property>
             <property name="text" translatable="yes">OPEN</property>
             <layout manager="pack">
               <property name="ipadx">10</property>
@@ -1075,6 +1082,7 @@ using the www.radio-browser.info database.</property>
         </child>
         <child>
           <object class="ttk.Button" id="button9">
+            <property name="style">BlueButton.TButton</property>
             <property name="text" translatable="yes">VOLUMES</property>
             <layout manager="pack">
               <property name="ipadx">10</property>
@@ -1086,6 +1094,7 @@ using the www.radio-browser.info database.</property>
         </child>
         <child>
           <object class="ttk.Button" id="button10">
+            <property name="style">BlueButton.TButton</property>
             <property name="text" translatable="yes">PARENT</property>
             <layout manager="pack">
               <property name="ipadx">10</property>
@@ -1097,6 +1106,7 @@ using the www.radio-browser.info database.</property>
         </child>
         <child>
           <object class="ttk.Button" id="button11">
+            <property name="style">RedButton.TButton</property>
             <property name="text" translatable="yes">CANCLE</property>
             <layout manager="pack">
               <property name="ipadx">10</property>

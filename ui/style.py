@@ -16,7 +16,7 @@
 #   automatically reflected in Pygubu Designer.
 # --------------------
 
-# Example code:
+# style.py
 style.configure('MySpecialButton.TButton',
                 font=('helvetica', 12, 'bold'),
                 background='green', foreground='white')
